@@ -1,0 +1,42 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+#include <assert.h>
+
+using namespace std;
+
+enum EReturnType
+{
+	RETURNSUCCESS,
+	RETURNNEGATIVE
+};
+
+void CheckPositive(int iNum)
+{
+	if (iNum < 0)
+	{
+		throw RETURNNEGATIVE;
+	}
+	throw RETURNSUCCESS;
+}
+
+int main(void)
+{
+	try{
+		CheckPositive(-200);
+		CheckPositive(100);
+	}
+	catch(EReturnType eError)
+	{
+		if (eError == RETURNNEGATIVE)
+		{
+			printf("음수를 입력했습니다!\n");
+		}
+		else if (eError == RETURNSUCCESS)
+		{
+			printf("양수를 입력했습니다.\n");
+		}
+	}
+
+	return 0;
+}

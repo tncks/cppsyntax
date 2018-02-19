@@ -1,0 +1,38 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+class CParent
+{
+public:
+	CParent(void) { printf("부모 생성자!\n"); }
+	~CParent(void) { printf("부모 소멸자!\n"); }
+
+};
+
+
+
+
+class CChild : public CParent
+{
+public:
+	CChild(void) { printf("자식 생성자!\n"); }
+	~CChild(void) { printf("자식 소멸자!\n"); }
+};
+
+
+
+
+int main(void)
+{
+	CParent *pParent = new CParent;
+	delete pParent;
+
+
+	CChild *pChild = new CChild;
+	delete pChild;
+
+	return 0;
+}

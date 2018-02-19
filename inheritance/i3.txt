@@ -1,0 +1,34 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+#define SAFEDELETEARRAY(PTR) delete[](PTR); PTR = nullptr
+#define SAFEDELETE(PTR) delete(PTR); PTR = nullptr
+
+class CData
+{
+protected:
+	int IntNum;
+public:
+	CData(void) : IntNum(10) {}
+	void PrintData(void) const { printf("IntNum1 : %d\n", IntNum); }
+};
+
+class CNewData : public CData
+{
+private:
+	int IntNum;
+public:
+	CNewData(void) : IntNum(20) {}
+	void PrintData(void) const { printf("IntNum2 : %d\n", IntNum); }
+};
+
+int main(void)
+{
+	CNewData NewData;
+	NewData.PrintData();
+
+	return 0;
+}

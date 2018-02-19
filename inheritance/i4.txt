@@ -1,0 +1,21 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+int main(void)
+{
+	int iNum = 10;
+
+	void *pNum = &iNum;
+	printf("pNum : %d\n", *(int *)pNum);
+
+
+
+	char cNum = 20;
+
+	pNum = &cNum;
+	printf("cNum : %d\n", *(char *)pNum);
+	return 0;
+}

@@ -1,0 +1,28 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+#include <assert.h>
+
+#define PURE = 0
+
+using namespace std;
+
+int main(void)
+{
+
+	char *pBuffer[2];
+	try
+	{
+		pBuffer[0] = new char[1000000000];
+		pBuffer[1] = new char[1000000000];
+	}
+	catch (std::bad_alloc &rError)
+	{
+		printf("동적 할당 오류 발생!\n");
+		printf("%s\n", rError.what());
+	}
+	delete[] pBuffer[0];
+	
+
+	return 0;
+}

@@ -1,0 +1,84 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+#include <assert.h>
+
+#define PURE = 0
+
+using namespace std;
+
+enum EErrorCode
+{
+	ERRORDEFAULT,
+	ERRORNEGATIVE,
+	ERRORDIVISIONZERO,
+};
+
+class CException
+{
+protected:
+	EErrorCode ErrorCode;
+public:
+	CException(void) : ErrorCode(ERRORDEFAULT) {}
+	explicit CException(EErrorCode eErrorCode) : ErrorCode(eErrorCode) {}
+	virtual ~CException(void) {}
+	void ShowErrorCode(void) const { printf("오류 번호 : %03d\n", ErrorCode); }
+	virtual void ShowErrorMessage(void) PURE;
+};
+
+class CErrorNegative : public CException
+{
+public:
+	CErrorNegative(void) : CException(ERRORNEGATIVE) {}
+	virtual ~CErrorNegative(void ) {}
+	virtual void ShowErrorMessage(void)
+	{
+		printf("음수는 사용할 수 없습니다!\n");
+	}
+
+};
+
+template <typename T>
+class CData
+{
+private:
+	T Data;
+public:
+	
+	CData(void) : Data(0) {}
+	explicit CData(T tData) : Data(tData) {}
+	virtual ~CData(void) {}
+	T GetData(void) { return Data;  }
+
+	CData<T> operator / (const T &rData)
+	{
+		if (rData == 0) throw ERRORDIVISIONZERO;
+
+		return *this;
+	}
+
+};
+
+void CheckPositive(CData<int> &rData)
+{
+	if (rData.GetData() < 0)
+	{
+		throw ERRORNEGATIVE;
+	}
+}
+
+int main()
+{
+	try
+	{
+		CData<int> Data;
+		Data / 0;
+	}
+	catch(EErrorCode eError)
+	{
+		if (eError == ERRORNEGATIVE) printf("값이 음수입니다!\n");
+		if (eError == ERRORDIVISIONZERO) printf("0으로 나눌 수 없습니다!\n");
+	}
+
+	return 0;
+}

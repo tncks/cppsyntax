@@ -1,0 +1,72 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+#define SAFEDELETEARRAY(PTR) delete[](PTR); PTR = nullptr
+#define SAFEDELETE(PTR) delete(PTR); PTR = nullptr
+
+class CHuman
+{
+private:
+	static int EyeCount;
+protected:
+	char *Name;
+	int Age;
+public:
+	CHuman(void) : Name(new char[1]), Age(0) {}
+	CHuman(const char *szName, int iAge)
+		: Name(new char[strlen(szName) + 1]), Age(iAge) {
+		strcpy(Name, szName);
+	}
+	~CHuman(void) { SAFEDELETEARRAY(Name); }
+	void PrintAlive(void) const { printf("난 살아있다!\n"); }
+};
+
+int CHuman::EyeCount = 2;
+
+class CGun
+{
+private:
+	int Bullet;
+public:
+	explicit CGun(int iBullet) : Bullet(iBullet) {}
+	void Fire(void) const { printf("총 발사!!\n"); }
+};
+
+class CPolice : public CHuman
+{
+private:
+	int Rank;
+	CGun *Gun;
+public:
+	CPolice(const char *szName, int iAge, int iRank) : CHuman(szName, iAge), Rank(iRank), Gun(new CGun(6)){}
+	~CPolice(void) { SAFEDELETE(Gun); }
+
+
+	void PrintInfo(void) const
+	{
+		printf("이름 : %s\n", Name);
+		printf("나이 : %d\n", Age);
+		printf("계급 : %d\n", Rank);
+	}
+
+	CGun *operator->(void) { return Gun; }
+	void Action(void) const { printf("경찰서에서 근무한다.\n"); }
+};
+
+int main(void)
+{
+	CGun Gun(10);
+	Gun.Fire();
+	printf("\n\n");
+
+	CPolice Police("김동식", 27, 1);
+	Police.PrintAlive();
+	Police.PrintInfo();
+	Police.Action();
+	Police->Fire();
+
+	return 0;
+}

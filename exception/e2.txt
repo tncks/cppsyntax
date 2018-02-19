@@ -1,0 +1,40 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+#include <assert.h>
+
+using namespace std;
+
+int main(void)
+{
+	int iNum;
+	bool bPositive = false;
+	while (bPositive == false)
+	{
+		printf("양수를 입력하세요 : "); scanf("%d", &iNum);
+		try
+		{
+			if (iNum < 0)
+			{
+				throw "음수를 입력하셨습니다!";
+			}
+			throw 10;
+		}
+		catch (const char *szError)
+		{
+			printf("%s\n", szError);
+			bPositive = false;
+		}
+		catch (int a)
+		{
+			printf("양수를 입력했습니다!\n");
+			bPositive = true;
+		}
+
+		printf("\n");
+	}
+
+	printf("iNum : %d\n", iNum);
+
+	return 0;
+}

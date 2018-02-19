@@ -1,0 +1,83 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+
+#define PURE = 0
+#define SAFEDELETEARRAY(PTR) delete[](PTR); PTR = nullptr
+#define SAFEDELETE(PTR) delete(PTR); PTR = nullptr
+
+using namespace std;
+
+class CHuman
+{
+private:
+	static int Eye;
+public:
+	CHuman(void) { printf("사람 생성자!\n"); }
+	virtual ~CHuman(void) { printf("사람 소멸자!\n"); }
+
+	virtual void Talk(void) const PURE { printf("난 사람이다!\n"); }
+	
+	virtual void ShowInfo(void) const PURE;
+};
+
+int CHuman::Eye = 2;
+
+class CPolice : public CHuman
+{
+private:
+	int Rank;
+public:
+	CPolice(void) : Rank(3) { printf("경찰 생성자!\n -------------- \n"); }
+	virtual ~CPolice(void) { printf("경찰 소멸자!\n"); }
+	virtual void Talk(void) const
+	{
+		CHuman::Talk();
+		printf("난 경찰이다!\n");
+	}
+	virtual void ShowInfo(void) const { printf("Rank : %d\n", Rank); }
+};
+
+class CStudent : public CHuman
+{
+private:
+	int Grade;
+public:
+	CStudent(void) : Grade(1) { printf("학생 생성자!\n-------------\n"); }
+	virtual ~CStudent(void) { printf("학생 소멸자!\n"); }
+	virtual void Talk(void) const { CHuman::Talk(); printf("난 학생이다!\n"); }
+	virtual void ShowInfo(void) const { printf("Grade : %d\n", Grade); }
+};
+
+void HumanTalk(CHuman *pHuman)
+{
+	pHuman->Talk();
+	pHuman->ShowInfo();
+	printf("\n");
+}
+
+
+int main(void)
+{
+	printf("생성 시작!\n");
+	printf("------------------\n");
+	CHuman *pHuman[2] = { new CPolice, new CStudent };
+	printf("생성 끝!\n");
+	printf("---------------\n");
+
+	for (int i = 0; i < 2; ++i)
+	{
+		HumanTalk(pHuman[i]);
+	}
+
+	printf("소멸 시작!\n");
+	printf("------------------\n");
+	for (int i = 0; i < 2; ++i)
+	{
+		SAFEDELETE(pHuman[i]);
+		printf("-------------\n");
+	}
+	printf("소멸 끝!\n");
+
+	return 0;
+}

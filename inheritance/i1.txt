@@ -1,0 +1,45 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+#define SAFEDELETEARRAY(PTR) delete[](PTR); PTR = nullptr
+#define SAFEDELETE(PTR) delete(PTR); PTR = nullptr
+
+class CHuman
+{
+protected:
+	char *Name;
+	int Age;
+public:
+	CHuman(void) : Name(new char[1]), Age(0) {}
+	CHuman(const char *szName, int iAge)
+		: Name(new char[strlen(szName) + 1]), Age(iAge) {
+		strcpy(Name, szName);
+	}
+	~CHuman(void) { SAFEDELETEARRAY(Name); }
+};
+
+class CPolice : public CHuman
+{
+private:
+	int Rank;
+public:
+	CPolice(int iRank) : Rank(iRank) {}
+	void PrintInfo(void) const
+	{
+		printf("이름 : %s\n", Name);
+		printf("나이 : %d\n", Age);
+		printf("계급 : %d\n", Rank);
+
+	}
+};
+
+int main(void)
+{
+	printf("CHuman의 크기 : %d바이트", sizeof(CHuman));
+	printf("\nCPolice의 크기 : %d바이트\n", sizeof(CPolice));
+
+	return 0;
+}

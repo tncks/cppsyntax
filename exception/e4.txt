@@ -1,0 +1,56 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+#include <assert.h>
+
+using namespace std;
+
+enum EReturnType
+{
+	RETURNSUCCESS,
+	RETURNNEGATIVE
+};
+
+template <typename T>
+class CData
+{
+private:
+	T Data;
+public:
+	CData(void) : Data(0) { printf("생성자 호출!\n"); }
+	explicit CData(T tData) : Data(tData) { printf("생성자 호출2!"); }
+	virtual ~CData(void) { printf("소멸자 호출!\n"); }
+	T GetData(void) { return Data;  }
+};
+
+void CheckPositive(CData<int> &rData)
+{
+	if (rData.GetData() < 0)
+	{
+		throw RETURNNEGATIVE;
+	}
+	throw RETURNSUCCESS;
+}
+
+int main(void)
+{
+	try{
+		CData<int> Data(-20);
+		CheckPositive(Data);
+	}
+	catch(EReturnType eError)
+	{
+		if (eError == RETURNNEGATIVE)
+		{
+			printf("음수를 입력했습니다!\n");
+		}
+		else if (eError == RETURNSUCCESS)
+		{
+			printf("양수를 입력했습니다.\n");
+		}
+	}
+
+	cout << "프로그래 끝!!" << endl;
+
+	return 0;
+}

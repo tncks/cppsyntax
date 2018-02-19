@@ -1,0 +1,39 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+#include <assert.h>
+#include <exception>
+
+enum EErrorCode {
+	ERRORDEFAULT,
+	ERRORNEGATIVE,
+	ERRORDIVISIONZERO,
+};
+
+void CheckDivisionZero(int iDivisor) throw (EErrorCode, int)
+{
+	if (iDivisor == 0)
+	{
+		throw ERRORDIVISIONZERO;
+	}
+}
+
+void UnknownError(void)
+{
+	printf("알수 없는 오류가 발생했습니다.\n");
+}
+
+int main(void)
+{
+	try
+	{
+		set_terminate(UnknownError);
+		CheckDivisionZero(0);
+	}
+	catch (int)
+	{
+		printf("여기로는 오지 않습니다.\n");
+	}
+
+	return 0;
+}

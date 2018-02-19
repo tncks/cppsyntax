@@ -1,0 +1,40 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+class CParent
+{
+public:
+	void Talk(void) { printf("내가 부모다!\n"); }
+};
+
+class CChild : public CParent
+{
+public:
+	void Talk(void) { printf("내가 자식이다!\n"); }
+	
+	void Talk(int iNum) { printf("내가 %d번째 자식이다!\n", iNum); }
+};
+
+
+
+
+
+
+int main(void)
+{
+	CParent Parent;
+
+	void *pObject = &Parent;
+	((CParent *)pObject)->Talk();
+
+	CChild Child;
+
+	pObject = &Child;
+	((CChild *)pObject)->Talk();
+	((CChild *)pObject)->Talk(1);
+
+	return 0;
+}

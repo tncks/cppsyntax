@@ -1,0 +1,17 @@
+#include "stdafx.h"
+#include <string>
+#include <iostream>
+#include <assert.h>
+
+using namespace std;
+
+int main(void)
+{
+	FILE *pFile = fopen("Testing.txt", "rt");
+
+	assert(pFile);
+
+	fclose(pFile);
+
+	return 0;
+}
